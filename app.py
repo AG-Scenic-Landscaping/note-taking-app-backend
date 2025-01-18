@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend/build/static')  # Serve static files from the frontend build folder
 CORS(app)  # Allow cross-origin requests
 
 # Initialize the database
@@ -22,11 +22,11 @@ def init_db():
 
 @app.route('/')
 def index():
-    return jsonify({'message': 'Welcome to the Note-Taking App!'})
+    return send_from_directory('frontend/build', 'index.html')  # Serve the frontend's index.html
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')  # Serve the favicon
 
 @app.route('/notes', methods=['GET'])
 def get_notes():

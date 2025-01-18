@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import sqlite3
 import os
@@ -23,6 +23,10 @@ def init_db():
 @app.route('/')
 def index():
     return jsonify({'message': 'Welcome to the Note-Taking App!'})
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
@@ -54,7 +58,5 @@ def delete_note(note_id):
 
 if __name__ == '__main__':
     init_db()
-    # Get the port from the environment variable or default to 10000
     port = int(os.environ.get("PORT", 10000))
-    # Run the Flask app on all available interfaces (0.0.0.0)
     app.run(host="0.0.0.0", port=port, debug=True)

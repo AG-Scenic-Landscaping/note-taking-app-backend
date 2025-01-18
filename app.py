@@ -20,6 +20,10 @@ def init_db():
     conn.commit()
     conn.close()
 
+@app.route('/')
+def index():
+    return jsonify({'message': 'Welcome to the Note-Taking App!'})
+
 @app.route('/notes', methods=['GET'])
 def get_notes():
     conn = sqlite3.connect('db.sqlite')
